@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Student Productivity Dashboard</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Chart JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- ===================================
+            LOGIN / SIGNUP
+    ==================================== -->
+
+    <div class="auth-container" id="authContainer">
+
+        <!-- LOGIN -->
+
+        <div class="auth-card" id="loginForm">
+
+            <h2>Login</h2>
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Enter Email"
+                autocomplete="email">
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter Password"
+                autocomplete="current-password">
+
+            <button
+                type="button"
+                onclick="loginUser()">
+                Login
+            </button>
+
+            <p>
+                Don't have an account?
+                <span onclick="showSignup()">
+                    Signup
+                </span>
+            </p>
+
+        </div>
+
+        <!-- SIGNUP -->
+
+        <div
+            class="auth-card hidden"
+            id="signupForm">
+
+            <h2>Create Account</h2>
+
+            <input
+                type="text"
+                id="signupName"
+                placeholder="Enter Name">
+
+            <input
+                type="email"
+                id="signupEmail"
+                placeholder="Enter Email">
+
+            <input
+                type="password"
+                id="signupPassword"
+                placeholder="Enter Password">
+
+            <button
+                type="button"
+                onclick="signupUser()">
+                Signup
+            </button>
+
+            <p>
+                Already have an account?
+                <span onclick="showLogin()">
+                    Login
+                </span>
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================
+                MAIN APPLICATION
+    ==================================== -->
+
+    <div class="container hidden" id="appContainer">
+
+        <!-- Sidebar -->
+
+        <div class="sidebar">
+
+            <div class="logo">
+                <h2>StudyAI</h2>
+            </div>
+
+            <ul class="menu">
+
+                <li class="active"
+                    onclick="showSection('dashboard-section', this)">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </li>
+
+                <li onclick="showSection('tasks-section', this)">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>Tasks</span>
+                </li>
+
+                <li onclick="showSection('kanban-section', this)">
+                    <i class="fa-solid fa-table-columns"></i>
+                    <span>Kanban</span>
+                </li>
+
+                <li onclick="showSection('pomodoro-section', this)">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Pomodoro</span>
+                </li>
+
+                <li onclick="showSection('notes-section', this)">
+                    <i class="fa-solid fa-note-sticky"></i>
+                    <span>Notes</span>
+                </li>
+
+                <li onclick="showSection('analytics-section', this)">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Analytics</span>
+                </li>
+
+                <li onclick="showSection('calendar-section', this)">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Calendar</span>
+                </li>
+
+                <li onclick="showSection('settings-section', this)">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </li>
+
+                <li onclick="logoutUser()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- ===================================
+                MAIN CONTENT
+        ==================================== -->
+
+        <div class="main-content">
+
+            <!-- Top Navbar -->
+
+            <div class="top-navbar">
+
+                <div
+                    class="menu-toggle"
+                    onclick="toggleSidebar()">
+
+                    <i class="fa-solid fa-bars"></i>
+
+                </div>
+
+                <div>
+
+                    <h1>
+                        Welcome,
+                        <span id="usernameDisplay">
+                            Student
+                        </span>
+                        👋
+                    </h1>
+
+                    <p>
+                        Stay productive today
+                    </p>
+
+                </div>
+
+                <div class="profile">
+
+                    <img
+                        src="https://i.pravatar.cc/40"
+                        alt="Profile">
+
+                </div>
+
+            </div>
+
+            <!-- ===================================
+                    DASHBOARD
+            ==================================== -->
+
+            <div
+                id="dashboard-section"
+                class="content-section">
+
+                <div class="cards">
+
+                    <div class="card">
+                        <div>
+                            <h3>Total Tasks</h3>
+                            <h1>0</h1>
+                        </div>
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+
+                    <div class="card">
+                        <div>
+                            <h3>Completed</h3>
+                            <h1>0</h1>
+                        </div>
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+
+                    <div class="card">
+                        <div>
+                            <h3>Study Hours</h3>
+                            <h1>0</h1>
+                        </div>
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+
+                    <div class="card">
+                        <div>
+                            <h3>Productivity</h3>
+                            <h1>0%</h1>
+                        </div>
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+
+                </div>
+
+            </div>
+                        <!-- ===================================
+                    TASKS SECTION
+            ==================================== -->
+
+            <div
+                id="tasks-section"
+                class="content-section hidden">
+
+                <div class="task-section">
+
+                    <div class="task-header">
+                        <h2>Task Manager</h2>
+                    </div>
+
+                    <div class="task-input">
+
+                        <input
+                            type="text"
+                            id="taskInput"
+                            placeholder="Enter a new task...">
+
+                        <select id="taskStatus">
+                            <option value="Pending">Pending</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+
+                        <button
+                            type="button"
+                            onclick="addTask()">
+                            Add Task
+                        </button>
+
+                    </div>
+
+                    <div
+                        class="task-list"
+                        id="taskList">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="kanban-container">
+
+    <div class="kanban-add">
+        <input
+            type="text"
+            id="kanbanTaskInput"
+            placeholder="Enter a task...">
+
+        <button onclick="addKanbanTask()">
+            Add Task
+        </button>
+    </div>
+
+    <div class="kanban-board">
+
+        <div
+            class="kanban-column"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)">
+
+            <h3>To Do</h3>
+
+            <div
+                id="todo"
+                class="kanban-tasks">
+            </div>
+
+        </div>
+
+        <div
+            class="kanban-column"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)">
+
+            <h3>In Progress</h3>
+
+            <div
+                id="progress"
+                class="kanban-tasks">
+            </div>
+
+        </div>
+
+        <div
+            class="kanban-column"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)">
+
+            <h3>Done</h3>
+
+            <div
+                id="done"
+                class="kanban-tasks">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+            <!-- ===================================
+                    POMODORO SECTION
+            ==================================== -->
+
+            <div
+                id="pomodoro-section"
+                class="content-section hidden">
+
+                <div class="pomodoro-section">
+
+                    <h2>Pomodoro Study Timer</h2>
+
+                    <div class="timer-container">
+
+                        <div
+                            class="timer-display"
+                            id="timer">
+                            25:00
+                        </div>
+
+                        <div class="timer-buttons">
+
+                            <button
+                                type="button"
+                                onclick="startTimer()">
+                                Start
+                            </button>
+
+                            <button
+                                type="button"
+                                onclick="pauseTimer()">
+                                Pause
+                            </button>
+
+                            <button
+                                type="button"
+                                onclick="resetTimer()">
+                                Reset
+                            </button>
+
+                        </div>
+
+                        <div class="session-count">
+
+                            Sessions Completed:
+                            <span id="sessionCount">0</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+                        <!-- ===================================
+                    NOTES SECTION
+            ==================================== -->
+
+            <div
+                id="notes-section"
+                class="content-section hidden">
+
+                <div class="notes-section">
+
+                    <h2>Smart Notes</h2>
+
+                    <div class="note-input-container">
+
+                        <textarea
+                            id="noteInput"
+                            placeholder="Write your note here..."></textarea>
+
+                        <button
+                            type="button"
+                            onclick="addNote()">
+                            Add Note
+                        </button>
+
+                    </div>
+
+                    <div
+                        class="notes-grid"
+                        id="notesGrid">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ===================================
+                    ANALYTICS SECTION
+            ==================================== -->
+
+            <div
+                id="analytics-section"
+                class="content-section hidden">
+
+                <div class="analytics-section">
+
+                    <h2>Productivity Analytics</h2>
+
+                    <div class="analytics-grid">
+
+                        <div class="chart-card">
+
+                            <h3>Task Completion</h3>
+
+                            <canvas id="taskChart"></canvas>
+
+                        </div>
+
+                        <div class="chart-card">
+
+                            <h3>Study Hours</h3>
+
+                            <canvas id="studyChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ===================================
+                    CALENDAR SECTION
+            ==================================== -->
+
+            <div
+                id="calendar-section"
+                class="content-section hidden">
+
+                <div class="calendar-section">
+
+                    <h2>Study Planner Calendar</h2>
+
+                    <div class="calendar-input-card">
+
+                        <input
+                            type="text"
+                            id="eventTitle"
+                            placeholder="Enter Event Title">
+
+                        <input
+                            type="date"
+                            id="eventDate">
+
+                        <button
+                            type="button"
+                            onclick="addEvent()">
+                            Add Event
+                        </button>
+
+                    </div>
+
+                    <div
+                        class="event-list"
+                        id="eventList">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ===================================
+                    SETTINGS SECTION
+            ==================================== -->
+
+            <div
+                id="settings-section"
+                class="content-section hidden">
+
+                <div class="settings-section">
+
+                    <h2>Settings</h2>
+
+                    <div class="settings-card">
+
+                        <!-- DARK MODE -->
+
+                        <div class="setting-item">
+
+                            <div>
+
+                                <h3>Dark Mode</h3>
+
+                                <p>
+                                    Enable dark theme for better productivity
+                                </p>
+
+                            </div>
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="darkModeToggle"
+                                    onchange="toggleDarkMode()">
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                        <!-- NOTIFICATIONS -->
+
+                        <div class="setting-item">
+
+                            <div>
+
+                                <h3>Notifications</h3>
+
+                                <p>
+                                    Enable browser reminders and alerts
+                                </p>
+
+                            </div>
+
+                            <button
+                                type="button"
+                                class="notify-btn"
+                                onclick="enableNotifications()">
+                                Enable
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- End Main Content -->
+
+    </div>
+    <!-- End App Container -->
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
